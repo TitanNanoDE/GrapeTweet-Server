@@ -1,0 +1,12 @@
+{
+  "name" : "GrapeTweet-Server",
+  "version" : "0.1.0",
+  "description" : "push server for the GrapeTweet twitter client",
+  "repository" : { 
+    "type" : "git", 
+    "url" : "http://github.com/titannano/grapetweet-server.git"
+  },
+  "dependencies" : {
+    "node-persist" : ">= 0.0.2"
+  }
+}
