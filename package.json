@@ -8,5 +8,9 @@
   },
   "dependencies" : {
     "node-persist" : ">= 0.0.2"
-  }
+  },
+  "scripts" : {
+    "start" : "node main.js"
+  },
+  "main" : "main.js"
 }

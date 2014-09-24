@@ -218,7 +218,7 @@ $_('grapeTweet-server').main(function(){
 		if(request.method == 'GET')
 			response.end('{ "EMPTY" : "" }');
 		
-	}).listen('8080');
+	}).listen('8080', process.env.OPENSHIFT_NODEJS_IP);
 	
 	$$.Object.keys(storage.getItem('clients')).forEach(function(item){
 		app.clientsMessages[item]= [{ type : 'server_crash', message : 'The push server crashed or had to be shut down. There will be a messages offset.' }];
