@@ -1,6 +1,4 @@
-require('./af/af.js');
-
-$('application').new('grapeTweet-server');
+require('../af/af.js');
 
 $_('grapeTweet-server').main(function(){
     var http= require('http');
@@ -252,49 +250,54 @@ $_('grapeTweet-server').main(function(){
 
         request.on('readable', function(){
             var clientInfo= $$.JSON.parse(request.read());
-            $$.console.log(request.url);
-            $$.console.log(clientInfo.id);
-            $$.console.log(JSON.stringify(App.clients.get(clientInfo.id)));
 
-//			register a new client
-            if(request.url == '/register'){
-                response.end(App.registerNewClient(clientInfo));
-            }else if(App.clients.get(clientInfo.id)){
-//	  		    verify a client
-                if(request.url == '/verify'){
-                    response.end(App.verifyClient(clientInfo));
+            if(clientInfo){
+                $$.console.log(request.url);
+                $$.console.log(clientInfo.id);
+                $$.console.log(JSON.stringify(App.clients.get(clientInfo.id)));
 
-//			    reverify a client / send the token
-                }else if(request.url == '/reverify'){
-                    response.end(App.reverifyClient(clientInfo));
+//	            register a new client
+                if (request.url == '/register') {
+                    response.end(App.registerNewClient(clientInfo));
+                } else if(App.clients.get(clientInfo.id)) {
+//	  		        verify a client
+                    if (request.url == '/verify') {
+                        response.end(App.verifyClient(clientInfo));
 
-//		    	provide all stored messages
-                }else if(request.url == '/pull'){
-                    response.end(App.grabClientMessages(clientInfo));
+//			        reverify a client / send the token
+                    } else if(request.url == '/reverify') {
+                        response.end(App.reverifyClient(clientInfo));
 
-//			    update the clients endpoint
-                }else if(request.url == '/updateEndpoint'){
-                    response.end(App.updateClientEndpoint(clientInfo));
-                }else if(request.url == '/status'){
+//		    	        provide all stored messages
+                    } else if(request.url == '/pull') {
+                        response.end(App.grabClientMessages(clientInfo));
+
+//			            update the clients endpoint
+                    } else if(request.url == '/updateEndpoint') {
+                        response.end(App.updateClientEndpoint(clientInfo));
+                    } else if(request.url == '/status') {
+                        response.end(JSON.stringify({
+                            status : 1,
+                            client : App.clients.get(clientInfo.id)
+                        }));
+                    }else{
+                        response.end('{ "EMPTY" : "" }');
+                    }
+                } else {
                     response.end(JSON.stringify({
-                        status : 1,
-                        client : App.clients.get(clientInfo.id)
+                        status : 0,
+                        errror: 'Eeh? What do you want??'
                     }));
-                }else{
-                    response.end('{ "EMPTY" : "" }');
                 }
-            }else{
-                response.end(JSON.stringify({
-                    status : 0,
-                    errror: 'Eeh? Who the heck are you?'
-                }));
             }
         });
 
         if(request.method == 'GET')
-            response.end('{ "EMPTY" : "" }');
+            response.end('nothing here ^-^');
 
-    }).listen('8080', process.env.OPENSHIFT_NODEJS_IP);
+    }).listen('8080');
+
+    console.log('GrapeTweet push server is ready and listening on ' + this.server.address().address + ':' + this.server.address().port);
 
     $$.Object.keys(App.clients.get()).forEach(function(id){
         App.clients.set(id, {

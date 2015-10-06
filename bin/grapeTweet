@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+require('../af/af.js');
+
+$('application').new('grapeTweet-server');
+
+require('../modules/main');

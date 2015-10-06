@@ -1,4 +1,4 @@
-require('./google/hmac-sha1.js');
+require('../google/hmac-sha1.js');
 
 this.createOAuthSignature= function(header, data, method, url, secred, tokenSecred){
 	var hash= {};
