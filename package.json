@@ -7,7 +7,7 @@
     "url" : "http://github.com/titannano/grapetweet-server.git"
   },
   "dependencies" : {
-    "node-persist" : ">= 0.0.2"
+    "node-persist" : ">=2.0.11"
   },
   "scripts" : {
     "start" : "node main.js"
